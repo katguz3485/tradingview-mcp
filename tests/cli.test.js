@@ -19,7 +19,7 @@ const CLI = join(__dirname, '..', 'src', 'cli', 'index.js');
 
 function run(args, opts = {}) {
   try {
-    const stdout = execFileSync('node', [CLI, ...args], {
+    const stdout = execFileSync(process.execPath, ['--import', fileURLToPath(new URL('./fixtures/pine-fetch-preload.js', import.meta.url)), CLI, ...args], {
       encoding: 'utf-8',
       timeout: 15000,
       ...opts,

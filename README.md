@@ -341,11 +341,17 @@ The key flag: `--remote-debugging-port=9222`
 ## Testing
 
 ```bash
-# Requires TradingView running with --remote-debugging-port=9222
-npm test
+# Deterministic unit tests; no TradingView, network or credentials required
+npm run test:unit
+
+# Live public Pine compiler API contract tests; requires network
+npm run test:api
+
+# Desktop integration tests; requires TradingView with --remote-debugging-port=9222
+npm run test:e2e
 ```
 
-29 tests covering: Pine Script static analysis, server-side compilation, and CLI routing.
+The offline suite covers CLI routing, static analysis, compiler response handling and chart/replay helpers. Compiler responses are synthetic fixtures that exercise the real adapter and CLI; they do not prove TradingView compiles a script. The separate API suite retains the five live compiler checks. `npm test` retains the desktop integration default.
 
 ## Architecture
 

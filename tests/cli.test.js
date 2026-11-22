@@ -1,6 +1,6 @@
 /**
  * CLI unit tests — no TradingView connection needed.
- * Tests: help output, pine analyze, pine check, error handling, exit codes.
+ * Tests: help output, pine analyze, fixture-backed pine check, error handling, exit codes.
  *
  * Run: node --test tests/cli.test.js
  */
@@ -129,8 +129,8 @@ describe('CLI — pine analyze (offline)', () => {
   });
 });
 
-describe('CLI — pine check (server compile)', () => {
-  it('compiles valid Pine Script', () => {
+describe('CLI — pine check (synthetic compiler fixture)', () => {
+  it('reports compiled for a successful fixture response', () => {
     const source = '//@version=6\nindicator("test")\nplot(close)';
     const { stdout, exitCode } = run(['pine', 'check'], { input: source });
     assert.equal(exitCode, 0);
@@ -139,7 +139,7 @@ describe('CLI — pine check (server compile)', () => {
     assert.equal(result.compiled, true);
   });
 
-  it('returns errors for invalid Pine Script', () => {
+  it('reports errors for a fixture error response', () => {
     const source = '//@version=6\nindicator("test")\nplot(nonexistent_var)';
     const { stdout, exitCode } = run(['pine', 'check'], { input: source });
     assert.equal(exitCode, 0);
